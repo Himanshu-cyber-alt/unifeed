@@ -225,7 +225,7 @@ export default function HomePage() {
 
             <button onClick={() => navigate(`/profile/${user?.id}`)} className="flex items-center gap-4 text-xl font-bold px-4 py-3 hover:bg-gray-800 text-gray-300 rounded-lg transition">
               <User className="w-7 h-7" />
-              <span>ProfileHereHereHere</span>
+              <span>Profile</span>
             </button>
           </nav>
           <hr className="border-gray-800 my-4"/>
