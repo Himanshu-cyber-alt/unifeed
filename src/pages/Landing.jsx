@@ -35,7 +35,7 @@ export default function Landing() {
 
         {/* Right side content */}
         <div className="flex flex-col w-full md:w-1/2 justify-center px-8 items-center md:items-start">
-          <h2 className="text-5xl font-bold mb-6">Happening now</h2>
+          <h2 className="text-5xl font-bold mb-6">Connect Us</h2>
           <h3 className="text-2xl font-semibold mb-8">Join UniFeed today.</h3>
 
           <div className="flex flex-col space-y-4 mb-8 w-80">
