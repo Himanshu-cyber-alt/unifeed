@@ -35,5 +35,11 @@
             role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
             aws-region: ap-south-1
 
-        - name: Deploy to S3
-          run: aws s3 sync dist/ s3://unifeed-social-networking  --delete
+        - name: Upload index.html
+          run: aws s3 cp dist/index.html s3://unifeed-social-networking/index.html
+
+        - name: Upload logo.svg
+          run: aws s3 cp dist/logo.svg s3://unifeed-social-networking/logo.svg
+
+        - name: Upload assets
+          run: aws s3 sync dist/assets/ s3://unifeed-social-networking/assets/
