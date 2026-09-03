@@ -133,17 +133,6 @@ The frontend needs environment variables for things such as the backend API URL 
 
 For local development, I use a `.env` file:
 
-```env
-VITE_API_URL=your_backend_api_url
-
-VITE_FIREBASE_API_KEY=your_value
-VITE_FIREBASE_AUTH_DOMAIN=your_value
-VITE_FIREBASE_PROJECT_ID=your_value
-VITE_FIREBASE_STORAGE_BUCKET=your_value
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_value
-VITE_FIREBASE_APP_ID=your_value
-VITE_FIREBASE_MEASUREMENT_ID=your_value
-```
 
 The `.env` file is **not committed to GitHub**.
 
@@ -425,46 +414,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      # Get the source code from GitHub
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Install Node.js on the GitHub runner
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
 
-      # Install dependencies using package-lock.json
       - name: Install dependencies
         run: npm ci
 
-      # Create environment file from GitHub Secrets
-      - name: Create .env
+      - name: Create frontend environment file
         run: |
-          echo "VITE_FIREBASE_API_KEY=${{ secrets.VITE_FIREBASE_API_KEY }}" >> .env
-          echo "VITE_FIREBASE_AUTH_DOMAIN=${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}" >> .env
-          echo "VITE_FIREBASE_PROJECT_ID=${{ secrets.VITE_FIREBASE_PROJECT_ID }}" >> .env
-          echo "VITE_FIREBASE_STORAGE_BUCKET=${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}" >> .env
-          echo "VITE_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}" >> .env
-          echo "VITE_FIREBASE_APP_ID=${{ secrets.VITE_FIREBASE_APP_ID }}" >> .env
-          echo "VITE_FIREBASE_MEASUREMENT_ID=${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}" >> .env
-          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env
+          echo '${{ secrets.APP_ENV }}' > .env
 
-      # Create the production build
       - name: Build React application
         run: npm run build
 
-      # Authenticate with AWS using GitHub OIDC
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ap-south-1
 
-      # Upload the production build to S3
       - name: Deploy to S3
         run: aws s3 sync dist/ s3://unifeed-social-networking --delete
 ```
@@ -625,17 +599,11 @@ http://unifeed-social-networking.s3-website.ap-south-1.amazonaws.com/
 ## Repository
 
 **GitHub:**
-<YOUR_FRONTEND_GITHUB_REPOSITORY>
+https://github.com/Himanshu-cyber-alt/unifeed
 
 ---
 
 ## Author
+Himanshu Pagare
 
-**Himanshu Pagare**
 
-```
-
-This version is much more **human/project-log style**. It explains *what you actually did and why*, rather than just saying “AWS S3, IAM, GitHub Actions.”
-
-One important thing: I intentionally **didn't put Terraform into this frontend README**, because your actual frontend deployment process documented here was done through the AWS console/CLI and GitHub Actions. If you used Terraform to create specific resources for Unifeed, we can add a separate **“Infrastructure Provisioning with Terraform”** section based on your actual Terraform files.
-```
